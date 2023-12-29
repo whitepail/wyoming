@@ -54,3 +54,87 @@ class StreamingStopped(Eventable):
     @staticmethod
     def from_event(event: Event) -> "StreamingStopped":
         return StreamingStopped()
+
+@dataclass
+class SetVolume(Eventable):
+    """Request to increase/decrease/set absolute volume."""
+
+    volume: Optional[str] = None
+    """Volume in percentage, if began with + on - then adjust, otherwise set absolute value, in case of no value - return current volume"""
+
+    @staticmethod
+    def is_type(event_type: str) -> bool:
+        return event_type == _VOLUME_SET_TYPE
+
+    def event(self) -> Event:
+        return Event(
+            type=_VOLUME_SET_TYPE,
+            data={"volume": self.volume},
+        )
+
+    @staticmethod
+    def from_event(event: Event) -> "SetVolume":
+        return SetVolume(volume=event.data.get("volume"))
+
+@dataclass
+class VolumeAdjusted(Eventable):
+    """Response to increase/decrease/set absolute volume request."""
+
+    volume: Optional[str] = None
+    """Volume in percentage, absolute value"""
+
+    @staticmethod
+    def is_type(event_type: str) -> bool:
+        return event_type == _VOLUME_ADJUSTED_TYPE
+
+    def event(self) -> Event:
+        return Event(
+            type=_VOLUME_ADJUSTED_TYPE,
+            data={"volume": self.volume},
+        )
+
+    @staticmethod
+    def from_event(event: Event) -> "VolumeAdjusted":
+        return VolumeAdjusted(volume=event.data.get("volume"))
+
+@dataclass
+class MuteMic(Eventable):
+    """Request to mute mic."""
+
+    mute: Optional[bool] = None
+    """Set mic mute value, in case of no value - toggle"""
+
+    @staticmethod
+    def is_type(event_type: str) -> bool:
+        return event_type == _MIC_MUTE_TYPE
+
+    def event(self) -> Event:
+        return Event(
+            type=_MIC_MUTE_TYPE,
+            data={"mute": self.mute},
+        )
+
+    @staticmethod
+    def from_event(event: Event) -> "MuteMic":
+        return MuteMic(volume=event.data.get("mute"))
+
+@dataclass
+class MicMuted(Eventable):
+    """Response for mute micquest to increase/decrease/set absolute volume."""
+
+    mute: Optional[bool] = None
+    """Current mic mute status"""
+
+    @staticmethod
+    def is_type(event_type: str) -> bool:
+        return event_type == _MIC_MUTED_TYPE
+
+    def event(self) -> Event:
+        return Event(
+            type=_MIC_MUTED_TYPE,
+            data={"mute": self.mute},
+        )
+
+    @staticmethod
+    def from_event(event: Event) -> "MicMuted":
+        return MicMuted(volume=event.data.get("mute"))
