@@ -2,10 +2,15 @@
 from dataclasses import dataclass
 
 from .event import Event, Eventable
+from typing import Optional
 
 _RUN_SATELLITE_TYPE = "run-satellite"
 _STREAMING_STARTED_TYPE = "streaming-started"
 _STREAMING_STOPPED_TYPE = "streaming-stopped"
+_VOLUME_SET_TYPE = "set-volume"
+_VOLUME_ADJUSTED_TYPE = "volume-adjusted"
+_MIC_MUTE_TYPE = "mute-mic"
+_MIC_MUTED_TYPE = "mic-muted"
 
 
 @dataclass
