@@ -121,11 +121,11 @@ class MuteMic(Eventable):
 
     @staticmethod
     def from_event(event: Event) -> "MuteMic":
-        return MuteMic(volume=event.data.get("mute"))
+        return MuteMic(mute=event.data.get("mute"))
 
 @dataclass
 class MicMuted(Eventable):
-    """Response for mute micquest to increase/decrease/set absolute volume."""
+    """Response for mute mic request."""
 
     mute: Optional[bool] = None
     """Current mic mute status"""
@@ -142,4 +142,4 @@ class MicMuted(Eventable):
 
     @staticmethod
     def from_event(event: Event) -> "MicMuted":
-        return MicMuted(volume=event.data.get("mute"))
+        return MicMuted(mute=event.data.get("mute"))
